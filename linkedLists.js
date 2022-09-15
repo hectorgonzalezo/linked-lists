@@ -148,8 +148,73 @@ class LinkedList {
             // add head if it doesnt exist
             return 'null'
     }
+
+    // Inserts a new node, with given value and at the given index
+    insertAt(value, index){
+        if (this.#list.hasOwnProperty("head")) {
+            // add to head if index is 0
+            if(index == 0){
+                const previousHead = this.#list.head;
+                this.#list.head = new Node(value, previousHead)
+                return this.#list.head
+            }
+            // Throw error if trying to insert at inexistent index
+            if(index > this.size){
+                throw new Error('List not long enough')
+            }
+
+            let previousNode = this.#list.head;
+            let count = 1;
+            // Look for the previous node to update its nextNode property
+            // to new Node
+            while (count != index ) {
+              previousNode = previousNode.nextNode;
+              count++
+            }
+            const subsequentNode = previousNode.nextNode;
+            previousNode.nextNode = new Node(value, subsequentNode)
+            return previousNode.nextNode;
+
+          } else {
+            // If theres no head, add it
+            if(index = 0){
+            // add head if it doesnt exist
+            return this.#addHead(value)
+            }
+          } 
+    }
+
+    // Removes the node at the given index
+    removeAt(index){
+        if (this.#list.hasOwnProperty("head")) {
+            // add to head if index is 0
+            if(index == 0){
+                this.#list.head = this.#list.head.nextNode;
+                return this.#list.head
+            }
+            // Throw error if trying to insert at inexistent index
+            if(index > this.size){
+                throw new Error('List not long enough')
+            }
+
+            let previousNode = this.#list.head;
+            let count = 1;
+            //  Look for previous node to update its nextNode property
+            // to the Node after the one we want to remove
+            while (count != index ) {
+              previousNode = previousNode.nextNode;
+              count++
+            }
+            previousNode.nextNode = previousNode.nextNode.nextNode;
+            return previousNode.nextNode;
+
+          } else {
+            throw new Error('Empty list')
+          } 
+    }
 }
 
+// I used this for testing purposes
 const ls = new LinkedList();
 
 ls.append(2);
@@ -159,3 +224,12 @@ ls.append(4);
 ls.append('juan')
 
 console.log(ls.toString());
+
+ls.insertAt('si', 4)
+
+console.log(ls.toString());
+
+ls.removeAt(5)
+
+console.log(ls.toString());
+
